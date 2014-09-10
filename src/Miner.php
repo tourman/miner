@@ -1,7 +1,5 @@
 <?php
 
-require_once(dirname(__FILE__) . implode(DIRECTORY_SEPARATOR, explode('/', '/MinerLocationFiniteStateMachine.php')));
-
 class Miner extends FiniteStateMachine
 {
     protected $_filling = 0;

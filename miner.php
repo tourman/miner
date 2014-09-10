@@ -1,6 +1,6 @@
 <?php
 
-require_once(dirname(__FILE__) . implode(DIRECTORY_SEPARATOR, explode('/', '/src/MinerController.php')));
+require_once('autoload.php');
 
 $controller = new MinerController();
 $controller->process();
