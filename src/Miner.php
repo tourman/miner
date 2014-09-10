@@ -1,16 +1,18 @@
 <?php
 
-class Miner extends FiniteStateMachine
+class Miner extends MinerBrain
 {
     protected $_filling = 0;
     protected $_fatigue = 0;
     protected $_thirst = 0;
     protected $_symbol = '*';
+    protected $_brain;
 
     protected $_fsmLocation;
 
     public function __construct(array $initData = array())
     {
+        $this->_brain = new MinerBrain();
         $this->_fsmLocation = new MinerLocationFiniteStateMachine();
         if ($initData) {
             $this->_filling = $initData['filling'];
@@ -42,49 +44,47 @@ class Miner extends FiniteStateMachine
         $this->_fsmLocation->displayLog();
     }
 
+    protected function _symbol($symbol)
+    {
+        if ($this->_symbol != '*') {
+            return;
+        }
+        $this->_symbol = $symbol;
+    }
+
     public function fill()
     {
         $this->_filling++;
-        if ($this->_filling >= 5) {
-            $this->_symbol = 'full';
-        }
+        $this->_symbol( $this->_brain->fill($this->_filling) );
     }
 
     public function withdraw()
     {
         $this->_filling = 0;
-        $this->_symbol = 'empty';
+        $this->_symbol( $this->_brain->withdraw($this->_filling) );
     }
 
     public function thirst()
     {
         $this->_thirst++;
-        if ($this->_thirst >= 3) {
-            $this->_symbol = 'thirst';
-        }
+        $this->_symbol( $this->_brain->thirst($this->_thirst) );
     }
 
     public function drink()
     {
         $this->_thirst--;
-        if ($this->_thirst <= 0) {
-            $this->_symbol = 'quenched';
-        }
+        $this->_symbol( $this->_brain->drink($this->_thirst) );
     }
 
     public function fatigue()
     {
         $this->_fatigue++;
-        if ($this->_fatigue >= 2) {
-            $this->_symbol = 'tired';
-        }
+        $this->_symbol( $this->_brain->fatigue($this->_fatigue) );
     }
 
     public function rest()
     {
         $this->_fatigue--;
-        if ($this->_fatigue <= 0) {
-            $this->_symbol = 'rested';
-        }
+        $this->_symbol( $this->_brain->rest($this->_fatigue) );
     }
 }
