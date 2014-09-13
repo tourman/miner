@@ -1,7 +1,5 @@
 <?php
 
-require_once(dirname(__FILE__) . implode(DIRECTORY_SEPARATOR, explode('/', '/Miner.php')));
-
 class MinerController
 {
     protected $_fileName = '/tmp/miner.data';
