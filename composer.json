@@ -1,5 +1,5 @@
 {
     "require": {
-        "tourman/fsm": "v1.0.1"
+        "tourman/fsm": "1.0.*"
     }
 }
